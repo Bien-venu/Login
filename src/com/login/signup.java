@@ -2,90 +2,126 @@ package com.login;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
-public class signup extends JFrame implements ActionListener{
-	JFrame Form =new JFrame();
-	JLabel name = new JLabel("Name:");
-	JLabel email = new JLabel("Email:");
-	JLabel username = new JLabel("Username:");
-	JLabel usertype = new JLabel("UserType:");
-	JLabel password = new JLabel("Password:");
+public class signup extends JFrame implements ActionListener {
 	
-	JTextField tName = new JTextField();
-	JTextField tEmail = new JTextField();
-	JTextField tUsername = new JTextField();
-	JPasswordField tPassword =new JPasswordField();
-	JTextField tUsertype = new JTextField();
+	JFrame Form = new JFrame();
 	
-	JButton btn = new JButton("Signup");
-	JButton btn2 = new JButton("Cancel");
+	JLabel lbName = new JLabel("Name:");
+	JLabel lbEmail = new JLabel("Email:");
+	JLabel lbUsername = new JLabel("Username:");
+	JLabel lbUsertype = new JLabel("Usertype:");
+	JLabel lbPassword= new JLabel("Password:");
+	
+	JTextField txtName = new JTextField();
+	JTextField txtEmail = new JTextField();
+	JTextField txtUsername = new JTextField();
+	JTextField txtUsertype = new JTextField();
+	JPasswordField pass = new JPasswordField();
+	
+	JButton btnSend = new JButton("Send");
+	JButton btnCancel = new JButton("Cancel");
+	
+	String Name,Email,Username,Usertype,Password;
 	
 	signup(){
 		setForm();
 		setObj();
 		addObj();
-		getObAction();
+        setObjAction();
 	}
-	
-	private void getObAction() {
-		btn.addActionListener(this);
-		btn2.addActionListener(this);	
+
+	private void setObjAction() {
+		// TODO Auto-generated method stub
+		btnSend.addActionListener(this);
+		btnCancel.addActionListener(this);
 		
 	}
 
 	private void addObj() {
-		Form.add(name);
-		Form.add(email);
-		Form.add(username);
-		Form.add(usertype);
-		Form.add(password);
-		Form.add(tName);
-		Form.add(tEmail);
-		Form.add(tUsername);
-		Form.add(tUsertype);
-		Form.add(tPassword);
-		Form.add(btn);
-		Form.add(btn2);
+		// TODO Auto-generated method stub
+		Form.add(lbName);
+		Form.add(lbEmail);
+		Form.add(lbUsername);
+		Form.add(lbUsertype);
+		Form.add(lbPassword);
+		
+		Form.add(txtName);
+		Form.add(txtEmail);
+		Form.add(txtUsername);
+		Form.add(txtUsertype);
+		Form.add(pass);
+		
+		Form.add(btnSend);
+		Form.add(btnCancel);
+		
+		
+	}
+
+	private void setObj() {
+		// TODO Auto-generated method stub
+		lbName.setBounds(50,30,100,30);
+		lbEmail.setBounds(50,70,100,30);
+		lbUsername.setBounds(50,110,100,30);
+		lbUsertype.setBounds(50,150,100,30);
+		lbPassword.setBounds(50,190,100,30);
+		
+		txtName.setBounds(160,30,200,30);
+		txtEmail.setBounds(160,70,200,30);
+		txtUsername.setBounds(160,110,200,30);
+		txtUsertype.setBounds(160,150,200,30);
+		pass.setBounds(160,190,200,30);
+		
+		btnSend.setBounds(160,230,100,30);
+		btnCancel.setBounds(280,230,90,30);
+		
+		
 	}
 
 	private void setForm() {
-		Form.setTitle("Student form");
-		Form.setBounds(500,500,400,400);
+		// TODO Auto-generated method stub
+		Form.setTitle("Student Login Form");
+		Form.setBounds(500, 500, 400, 500);
 		Form.setDefaultCloseOperation(3);
 		Form.getContentPane().setLayout(null);
 		Form.setVisible(true);
-	}
-	
-	private void setObj() {
-		name.setBounds(50,50,100,30);
-		email.setBounds(50,90,100,30);
-		username.setBounds(50,130,100,30);
-		usertype.setBounds(50,170,100,30);
-		password.setBounds(50,210,100,30);
 		
-		tName.setBounds(160,50,200,30);
-		tEmail.setBounds(160,90,200,30);
-		tUsername.setBounds(160,130,200,30);
-		tUsertype.setBounds(160,170,200,30);
-		tPassword.setBounds(160,210,200,30);
-		
-		btn.setBounds(160,250,100,30);
-		btn2.setBounds(270,250,100,30);
 	}
-	
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==btn2) {
-			tName.setText("");	
-			tEmail.setText("");	
-			tUsername.setText("");	
-			tUsertype.setText("");
-			tPassword.setText("");
+		
+		if(e.getSource() == btnCancel) {
+			
+			txtName.setText("");
+			txtEmail.setText("");
+			txtUsername.setText("");
+			txtUsertype.setText("");
+			pass.setText("");
+			
+		}
+		else if(e.getSource()==btnSend)
+		{
+			ConnectDB con =new ConnectDB();
+			con.dbConnection();
+			Name =txtName.getText();
+			Email = txtEmail.getText();
+			Username =txtUsername.getText();
+			Usertype =txtUsertype.getText();
+			Password =pass.getText();
+			
+			try {
+				con.addUser(Name,Email,Username,Usertype,Password);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+		}
+	
+		
 	}
 
 }
